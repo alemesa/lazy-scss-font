@@ -1,0 +1,88 @@
+$layout: (
+  mobile: 375,
+  tablet: 768,
+  desktopSm: 1024,
+  desktopMd: 1440,
+  desktopLg: 1920,
+) !default;
+
+$typography-system: (
+  mobile: (
+    h1: (36, 40, -1),
+    h2: (28, 32, -1),
+    h3: (20, 27, -0.5),
+    p1: (20, 28, -0.5),
+    p2: (16, 22, 0),
+    p3: (14, 20),
+    breadcrumb: (12, 16),
+    label: (8, 22),
+    cta: (14, 14)
+  ),
+  tablet: (
+    p1: (24, 30, -0.5),
+    p2: (18, 24),
+    h1: (64, 72, -1),
+    h2: (48, 52, -1),
+    h3: (32, 40, -0.5),
+  ),
+  desktopSm: (
+    breadcrumb: (14, 19),
+    p2: (20, 28)
+  )
+) !default;
+
+@mixin breakpoint($size) {
+  @media (min-width: map-get($layout, $size) + px) {
+    @content;
+  }
+}
+
+@function px($px) {
+  @return $px * 0.1rem;
+}
+
+@function line-height($font-size, $line-height) {
+  @if $line-height==normal {
+    @return normal;
+  }
+  @return $line-height / $font-size;
+}
+
+@function letter-spacing($font-size, $letter-spacing) {
+  @if $letter-spacing==normal {
+    @return normal;
+  }
+  @return #{$letter-spacing / $font-size}em;
+}
+
+@mixin font-size($font-size, $line-height: normal, $letter-spacing: normal) {
+  font-size: px($font-size);
+  line-height: line-height($font-size, $line-height);
+
+  @if $letter-spacing !=0 {
+    letter-spacing: letter-spacing($font-size, $letter-spacing);
+  }
+}
+
+@mixin font-style($element) {
+  @each $breakpoint in $layout {
+    $i: index($layout, $breakpoint); // index of the item
+    $keys: map-keys($layout); // all keys from layout
+    $key-name: nth($keys, $i); // mobile coming from $layout
+
+    @if (map-has-key($typography-system, $key-name)) {
+      $key: map-get($typography-system, $key-name); // get the object from $typography
+
+      @if (map-has-key($key, $element)) {
+        // First item doesn't have breakpoint and is considered mobile
+        @if ($i == 1) {
+          @include font-size(map-get($key, $element)...);
+        } @else {
+          @include breakpoint($key-name) {
+            @include font-size(map-get($key, $element)...);
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "name": "lazy-scss-font",
+  "version": "0.0.1",
+  "description": "Some scss mixins to quickly develop",
+  "main": "index.scss",
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "sassdoc **/*.scss",
+    "start": "npm run build",
+    "version": "npm run build && git add -A docs"
+  },
+  "devDependencies": {
+    "sassdoc": "^2.5.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alemesa/lazy-scss-font.git"
+  },
+  "keywords": [
+    "mixin",
+    "mixins",
+    "function",
+    "functions",
+    "helper",
+    "helpers",
+    "sass",
+    "scss",
+    "util",
+    "utils",
+    "utilities"
+  ],
+  "author": "Alejandro Mesa <http://alemesa.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alemesa/lazy-scss-font/issues"
+  },
+  "homepage": "https://github.com/alemesa/lazy-scss-font#readme"
+}
